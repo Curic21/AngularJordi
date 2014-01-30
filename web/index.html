@@ -2,100 +2,39 @@
 <!doctype html>
 <html ng-app="MiApp">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="enunciado/html; charset=UTF-8">
         <script src="js/angular.js"></script>
-        <script src="js/NombreFuncion.js"></script> 
+        <script src="js/Funciones.js"></script> 
         <title>Cuestionario Angular</title>
     </head>
     <body>
-        <h2>Empecemos el Cuestionario</h2>
-        <div ng-controller="NombreFuncion">
-            <input type="checkbox" ng-model="mostrar">¿Mostrar la encuesta?
-            <div ng-show="mostrar==true">
-                Nombre:<input type="text" ng-model="seguro.nombre" ><br/>
-                Primer apellido:<input type="text" ng-model="seguro.ape1" ><br/>
-                Segundo apellido:<input type="text" ng-model="seguro.ape2" ><br/>
+        <h1>Empecemos el Cuestionario</h1>
+        <div ng-controller="Datos">
+            Inserte aquñi sus datos personales
+            <div>
+                Nombre:<input type="enunciado" ng-model="seguro.nombre" ><br/>
+                Primer apellido:<input type="enunciado" ng-model="seguro.ape1" ><br/>
+                Segundo apellido:<input type="enunciado" ng-model="seguro.ape2" ><br/>
                 Edad:<input type="number" ng-model="edad"><br />  
-                
-                <div ng-controller="Preguntas"> 
-            <ul>
-                <li ng-repeat="pregunta in preguntas.respuestas">{{pregunta.nombre}}
-                
-                </li>
-                
-            </ul>
-
-
-
-            <script>
-                function Preguntas($scope) {
-                    $scope.preguntas = [{
-                            idPregunta: 1,
-                            nombre: "¿Cuál es tu película favorita?",
-                            respuestas: [{"id":1,"respuesta":"Ironman"},{"id":2,"respuesta":"Ironman"},{"id":3,"respuesta":"Ironman"}]
-                            
-                        }, {
-                            idPregunta: 2,
-                            nombre: "¿Cual es tu canción favorita?",
-                            respuestas: [{"id":1,"respuesta":"Ironman"},{"id":2,"respuesta":"Ironman"},{"id":3,"respuesta":"Ironman"}]
-                        }, {
-                            idPregunta: 3,
-                            nombre: "¿cuál es tu pintura favorita?",
-                            respuestas: [{"id":1,"respuesta":"Ironman"},{"id":2,"respuesta":"Ironman"},{"id":3,"respuesta":"Ironman"}]
-                        }];
-                    
-                    /*function TestController($scope) {
-    $scope.questions = [
-        {
-            id : 1,
-            text:'¿Cómo declaramos en Java un atributo de una clase que solo pueda ser accedido desde la propia clase?',
-            validAnswer : 1,
-            userAnswer : null,
-            status : '',
-            answers: [
-                {id : 1, text : 'Con "private"'},
-                {id : 2, text : 'Con "public"'},
-                {id : 3, text : 'Con mucho cariño'},
-                {id : 4, text : '¡Eso no se puede hacer!'}
-            ]
-        },
-        {
-            id : 2,
-            text:'¿Qué significan las siglas del patrón MVC?',
-            validAnswer : 2,
-            userAnswer : null,
-            status : '',
-            answers: [
-                {id : 1, text : 'Modelo Vista Concurrente'},
-                {id : 2, text : 'Modelo Vista Controlador'},
-                {id : 3, text : 'Me Voy de Casa'}
-            ]
-        },
-        {
-            id : 3,
-            text:'¿Quién es el mejor futbolista del mundo?',
-            validAnswer : 2,
-            userAnswer : null,
-            status : '',
-            answers: [
-                {id : 1, text : 'Leo Messi (F.C. Barcelona)'},
-                {id : 2, text : 'Cristiano Ronaldo (Real Madrid C.F.)'},
-                {id : 3, text : 'Radamel Falcao (Atlético de Madrid)'}
-            ]
-        }
-    ];
-
-    $scope.userStatus = '';
-
-    $scope.validAnswers = 0;*/
-                    
-                }
-            </script>
-        </div> 
-                
             </div>
-        </div>
-        <br/> 
-        
+            <br/><br/>
+            <div ng-controller="Preguntas">
+                <div class="preguntas">
+                    <div class="pregunta" ng-repeat="pregunta in preguntas">
+                        <p class="status-{{pregunta.status}}">{{pregunta.enunciado}}</p>
+                        <div class="respuestas" ng-repeat="respuesta in pregunta.respuestas">
+                            <input type="radio" ng-model="pregunta.elegida" value="{{respuesta.id}}"
+                                   name="pregunta-{{pregunta.id}}" id="respuesta-{{pregunta.id}}-{{respuesta.id}}" ng-change="validate(pregunta)"/>
+                            <label for="respuesta-{{pregunta.id}}-{{respuesta.id}}">{{respuesta.enunciado}}</label>
+                        </div>
+                    </div>
+                </div>
+                <br/><br/>
+                 <input type="checkbox"  ng-model="mostrar" >¿Quiere ver su resultado?
+                <div class="userStatus {{userStatus}}" ng-show="mostrar == true">
+                    <h2>Ha acertado {{correctas}} de {{preguntas.length}}</h2>
+                </div>
+            </div>
+
     </body>
 </html>
